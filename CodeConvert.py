@@ -135,16 +135,16 @@ class CodeConvert:
             if repr(kw).strip('\'').strip('"').startswith('\\x'):  # 处理 gbk、utf8 编码
                 try:  # 处理 utf8 编码
                     kw.decode('utf8')
-                    print ">>> unicode 编码: obj.decode('utf8')"
+                    print ">>> utf8 编码: obj.decode('utf8')"
                     return kw.decode('utf8')
                 except:  # 处理 gbk 编码
-                    print ">>> unicode 编码: obj.decode('gbk')"
+                    print ">>> gbk 编码: obj.decode('gbk')"
                     return kw.decode('gbk')
             elif repr(kw).strip('\'').strip('"').startswith('\\\\u'):  # 处理无 u 的 unicode 编码
                 print ">>> 无 u 的 unicode 编码: obj.decode('raw_unicode_escape')"
                 return kw.decode('raw_unicode_escape')
             else:
-                print ">>> unicode 编码: obj.decode('utf8')"
+                print ">>> utf8 编码: obj.decode('utf8')"
                 return kw.decode('utf8')
 
 
