@@ -31,61 +31,95 @@ import sys
 import requests
 
 
+def convert_2_utf8_basestring(kw):
+    if repr(kw).startswith('u'):
+        # print repr(kw)[3:-1].split('\\')
+        if repr(kw)[1:].strip('\'').strip('"').startswith('\\x'):  # 处理 u 内含 gbk、utf8 编码
+            try:  # 处理 u 内含 utf8 编码
+                # kw.encode('latin1').decode('utf8')
+                # return kw.encode('latin1')
+                kw.encode('raw_unicode_escape').decode('utf8')  # 如果是 u 内含 gbk 编码，会出错进入 except
+                return kw.encode('raw_unicode_escape')
+            except:  # 处理 u 内含 gbk 编码
+                # return kw.encode('latin1').decode('gbk').encode('utf8')
+                return kw.encode('raw_unicode_escape').decode('gbk').encode('utf8')
+        # elif repr(kw)[1:].strip('\'').strip('"').startswith('\\u'):  # 处理 unicod 编码
+        elif isinstance(kw, unicode):
+            return kw.encode('utf8')
+    else:
+        if repr(kw).strip('\'').strip('"').startswith('\\x'):  # 处理 gbk、utf8 编码
+            try:  # 处理 utf8 编码
+                kw.decode('utf8')
+                return kw
+            except:  # 处理 gbk 编码
+                return kw.decode('gbk').encode('utf8')
+        elif repr(kw).strip('\'').strip('"').startswith('\\\\u'):  # 处理无 u 的 unicode 编码
+            return kw.decode('raw_unicode_escape').encode('utf8')
+        else:
+            return kw
+
+
+def convert_2_unicode_basestring(kw):
+    if repr(kw).startswith('u'):
+        # print repr(kw)[3:-1].split('\\')
+        if repr(kw)[1:].strip('\'').strip('"').startswith('\\x'):  # 处理 u 内含 gbk、utf8 编码
+            try:  # 处理 u 内含 utf8 编码
+                kw.encode('latin1').decode('utf8')
+                return kw.encode('latin1').decode('utf8')
+            except:  # 处理 u 内含 gbk 编码
+                return kw.encode('latin1').decode('gbk')
+        # elif repr(kw)[1:].strip('\'').strip('"').startswith('\\u'):  # 处理 unicode 编码
+        elif isinstance(kw, unicode):
+            return kw
+    else:
+        if repr(kw).strip('\'').strip('"').startswith('\\x'):  # 处理 gbk、utf8 编码
+            try:  # 处理 utf8 编码
+                return kw.decode('utf8')
+            except:  # 处理 gbk 编码
+                return kw.decode('gbk')
+        elif repr(kw).strip('\'').strip('"').startswith('\\\\u'):  # 处理无 u 的 unicode 编码
+            return kw.decode('raw_unicode_escape')
+        else:
+            return kw.decode('utf8')
+
+
+def convert_2_utf8(kw):
+    if isinstance(kw, basestring):
+        return convert_2_utf8_basestring(kw)
+    elif isinstance(kw, dict):
+        return dict((convert_2_utf8(k), convert_2_utf8(v)) for k, v in kw.items())
+    elif isinstance(kw, list):
+        return [convert_2_utf8(k) for k in kw]
+    elif isinstance(kw, tuple):
+        return tuple([convert_2_utf8(k) for k in kw])
+    elif isinstance(kw, set):
+        return set([convert_2_utf8(k) for k in kw])
+
+
+def convert_2_unicode(kw):
+    if isinstance(kw, basestring):
+        return convert_2_unicode_basestring(kw)
+    elif isinstance(kw, dict):
+        return dict((convert_2_unicode(k), convert_2_unicode(v)) for k, v in kw.items())
+    elif isinstance(kw, list):
+        return [convert_2_unicode(k) for k in kw]
+    elif isinstance(kw, tuple):
+        return tuple([convert_2_unicode(k) for k in kw])
+    elif isinstance(kw, set):
+        return set([convert_2_unicode(k) for k in kw])
+
+
 class CodeConvert:
     def __init__(self):
         pass
 
     @staticmethod
     def Convert2Utf8(kw):
-        if repr(kw).startswith('u'):
-            # print repr(kw)[3:-1].split('\\')
-            if repr(kw)[1:].strip('\'').strip('"').startswith('\\x'):  # 处理 u 内含 gbk、utf8 编码
-                try:  # 处理 u 内含 utf8 编码
-                    # kw.encode('latin1').decode('utf8')
-                    # return kw.encode('latin1')
-                    kw.encode('raw_unicode_escape').decode('utf8')  # 如果是 u 内含 gbk 编码，会出错进入 except
-                    return kw.encode('raw_unicode_escape')
-                except:  # 处理 u 内含 gbk 编码
-                    # return kw.encode('latin1').decode('gbk').encode('utf8')
-                    return kw.encode('raw_unicode_escape').decode('gbk').encode('utf8')
-            # elif repr(kw)[1:].strip('\'').strip('"').startswith('\\u'):  # 处理 unicod 编码
-            elif isinstance(kw, unicode):
-                return kw.encode('utf8')
-        else:
-            if repr(kw).strip('\'').strip('"').startswith('\\x'):  # 处理 gbk、utf8 编码
-                try:  # 处理 utf8 编码
-                    kw.decode('utf8')
-                    return kw
-                except:  # 处理 gbk 编码
-                    return kw.decode('gbk').encode('utf8')
-            elif repr(kw).strip('\'').strip('"').startswith('\\\\u'):  # 处理无 u 的 unicode 编码
-                return kw.decode('raw_unicode_escape').encode('utf8')
-            else:
-                return kw
+        return convert_2_utf8(kw)
 
     @staticmethod
     def Convert2Unicode(kw):
-        if repr(kw).startswith('u'):
-            # print repr(kw)[3:-1].split('\\')
-            if repr(kw)[1:].strip('\'').strip('"').startswith('\\x'):  # 处理 u 内含 gbk、utf8 编码
-                try:  # 处理 u 内含 utf8 编码
-                    kw.encode('latin1').decode('utf8')
-                    return kw.encode('latin1').decode('utf8')
-                except:  # 处理 u 内含 gbk 编码
-                    return kw.encode('latin1').decode('gbk')
-            # elif repr(kw)[1:].strip('\'').strip('"').startswith('\\u'):  # 处理 unicode 编码
-            elif isinstance(kw, unicode):
-                return kw
-        else:
-            if repr(kw).strip('\'').strip('"').startswith('\\x'):  # 处理 gbk、utf8 编码
-                try:  # 处理 utf8 编码
-                    return kw.decode('utf8')
-                except:  # 处理 gbk 编码
-                    return kw.decode('gbk')
-            elif repr(kw).strip('\'').strip('"').startswith('\\\\u'):  # 处理无 u 的 unicode 编码
-                return kw.decode('raw_unicode_escape')
-            else:
-                return kw.decode('utf8')
+        return convert_2_unicode(kw)
 
     @staticmethod
     def Convert2Utf8_test(kw):
