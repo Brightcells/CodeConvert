@@ -4,7 +4,7 @@ from __future__ import with_statement
 from setuptools import setup
 
 
-version = '1.0.0'
+version = '2.0.1'
 
 
 setup(
@@ -20,15 +20,12 @@ setup(
     author_email='kimi.huang@brightcells.com',
 
     py_modules=['CodeConvert'],
-    install_requires = [],
+    install_requires=[],
 
     classifiers=[
         'Development Status :: 5 - Production/Stable',
-        'Environment :: Web Environment',
-        'Framework :: Django',
         'Intended Audience :: Developers',
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        'Topic :: Office/Business :: Financial :: Spreadsheet',
     ],
 )

@@ -27,9 +27,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # note:
 # see http://docs.python.org/2/library/codecs.html#standard-encodings
 
-import sys
-import requests
-
 
 TIPS_UTF8 = {
     'u_contain_utf8': u">>> u 内含 utf8 编码: obj.encode('raw_unicode_escape')",
@@ -64,29 +61,40 @@ def print_tip_unicode(k): print TIPS_UNICODE[k]
 def print_tip_escape(k): print TIPS_ESCAPE[k]
 
 
+def exec_strip(repr_kw):
+    repr_kw = repr_kw.strip('\'').strip('"')
+    try:
+        return repr_kw[repr_kw.index('\\'):]
+    except ValueError:
+        return repr_kw
+
+
 def convert_2_utf8_basestring(kw, debug=False):
-    if repr(kw).startswith('u'):
-        if repr(kw)[1:].strip('\'').strip('"').startswith('\\x'):  # 处理 u 内含 gbk、utf8 编码
+    repr_kw = repr(kw)
+    if repr_kw.startswith('u'):
+        striped_kw = exec_strip(repr_kw[1:])
+        if striped_kw.startswith('\\x'):  # 处理 u 内含 gbk、utf8 编码
             try:  # 处理 u 内含 utf8 编码
                 kw.encode('raw_unicode_escape').decode('utf8')  # 如果是 u 内含 gbk 编码，会出错进入 except
                 if debug: print_tip_utf8('u_contain_utf8')
                 return kw.encode('raw_unicode_escape')
-            except:  # 处理 u 内含 gbk 编码
+            except UnicodeDecodeError:  # 处理 u 内含 gbk 编码
                 if debug: print_tip_utf8('u_contain_gbk')
                 return kw.encode('raw_unicode_escape').decode('gbk').encode('utf8')
         elif isinstance(kw, unicode):  # 处理 unicode 编码
             if debug: print_tip_utf8('unicode')
             return kw.encode('utf8')
     else:
-        if repr(kw).strip('\'').strip('"').startswith('\\x'):  # 处理 gbk、utf8 编码
+        striped_kw = exec_strip(repr_kw)
+        if striped_kw.startswith('\\x'):  # 处理 gbk、utf8 编码
             try:  # 处理 utf8 编码
                 kw.decode('utf8')
                 if debug: print_tip_utf8('utf8')
                 return kw
-            except:  # 处理 gbk 编码
+            except UnicodeDecodeError:  # 处理 gbk 编码
                 if debug: print_tip_utf8('gbk')
                 return kw.decode('gbk').encode('utf8')
-        elif repr(kw).strip('\'').strip('"').startswith('\\\\u'):  # 处理无 u 的 unicode 编码
+        elif striped_kw.startswith('\\\\u'):  # 处理无 u 的 unicode 编码
             if debug: print_tip_utf8('unicode_without_u')
             return kw.decode('raw_unicode_escape').encode('utf8')
         else:
@@ -95,27 +103,30 @@ def convert_2_utf8_basestring(kw, debug=False):
 
 
 def convert_2_unicode_basestring(kw, debug=False):
+    repr_kw = repr(kw)
     if repr(kw).startswith('u'):
-        if repr(kw)[1:].strip('\'').strip('"').startswith('\\x'):  # 处理 u 内含 gbk、utf8 编码
+        striped_kw = exec_strip(repr_kw[1:])
+        if striped_kw.startswith('\\x'):  # 处理 u 内含 gbk、utf8 编码
             try:  # 处理 u 内含 utf8 编码
                 kw.encode('latin1').decode('utf8')
                 if debug: print_tip_unicode('u_contain_utf8')
                 return kw.encode('latin1').decode('utf8')
-            except:  # 处理 u 内含 gbk 编码
+            except UnicodeDecodeError:  # 处理 u 内含 gbk 编码
                 if debug: print_tip_unicode('u_contain_gbk')
                 return kw.encode('latin1').decode('gbk')
         elif isinstance(kw, unicode):  # 处理 unicode 编码
             if debug: print_tip_unicode('unicode')
             return kw
     else:
-        if repr(kw).strip('\'').strip('"').startswith('\\x'):  # 处理 gbk、utf8 编码
+        striped_kw = exec_strip(repr_kw)
+        if striped_kw.startswith('\\x'):  # 处理 gbk、utf8 编码
             try:  # 处理 utf8 编码
                 if debug: print_tip_unicode('utf8')
                 return kw.decode('utf8')
-            except:  # 处理 gbk 编码
+            except UnicodeDecodeError:  # 处理 gbk 编码
                 if debug: print_tip_unicode('gbk')
                 return kw.decode('gbk')
-        elif repr(kw).strip('\'').strip('"').startswith('\\\\u'):  # 处理无 u 的 unicode 编码
+        elif striped_kw.startswith('\\\\u'):  # 处理无 u 的 unicode 编码
             if debug: print_tip_unicode('unicode_without_u')
             return kw.decode('raw_unicode_escape')
         else:
@@ -124,15 +135,18 @@ def convert_2_unicode_basestring(kw, debug=False):
 
 
 def kw_escape(kw, debug=False):
-    if repr(kw).startswith('u'):
-        if repr(kw)[1:].strip('\'').strip('"').startswith('\\\\x'):
+    repr_kw = repr(kw)
+    if repr_kw.startswith('u'):
+        striped_kw = exec_strip(repr_kw[1:])
+        if striped_kw.startswith('\\\\x'):
             if debug: print_tip_escape('double_backslash_str')
             return kw.decode('string_escape')
-        elif repr(kw)[1:].strip('\'').strip('"').startswith('\\\\u'):
+        elif striped_kw.startswith('\\\\u'):
             if debug: print_tip_escape('double_backslash_unicode')
             return kw.decode('raw_unicode_escape')
     else:
-        if repr(kw).strip('\'').strip('"').startswith('\\\\x'):
+        striped_kw = exec_strip(repr_kw)
+        if striped_kw.startswith('\\\\x'):
             if debug: print_tip_escape('double_backslash_str')
             return kw.decode('string_escape')
     return kw
@@ -212,6 +226,8 @@ def _Convert2Utf8():
     utf8_test(u'\xe6\x9c\x80\xe5\x90\x8e\xe4\xb8\x80\xe4\xb8\xaa\xe9\x97\xae\xe9\xa2\x98')
     utf8_test(u'\\xe6\\x9c\\x80\\xe5\\x90\\x8e\\xe4\\xb8\\x80\\xe4\\xb8\\xaa\\xe9\\x97\\xae\\xe9\\xa2\\x98')
 
+    utf8_test(u'error\xe6\x9c\x80\xe5\x90\x8e\xe4\xb8\x80\xe4\xb8\xaa\xe9\x97\xae\xe9\xa2\x98')
+
     # unicode 编码字串, 直接encode('utf8')为utf8编码
     utf8_test(u'\u6700\u540e\u4e00\u4e2a\u95ee\u9898')
     utf8_test(u'\\u6700\\u540e\\u4e00\\u4e2a\\u95ee\\u9898')
@@ -250,6 +266,8 @@ def _Convert2Unicode():
     # u 内含 utf8 编码字串, 直接encode('latin1')为utf8编码, 再decode('utf8')为unicode编码
     unicode_test(u'\xe6\x9c\x80\xe5\x90\x8e\xe4\xb8\x80\xe4\xb8\xaa\xe9\x97\xae\xe9\xa2\x98')
     unicode_test(u'\\xe6\\x9c\\x80\\xe5\\x90\\x8e\\xe4\\xb8\\x80\\xe4\\xb8\\xaa\\xe9\\x97\\xae\\xe9\\xa2\\x98')
+
+    unicode_test(u'error\xe6\x9c\x80\xe5\x90\x8e\xe4\xb8\x80\xe4\xb8\xaa\xe9\x97\xae\xe9\xa2\x98')
 
     # unicode 编码字串, 直接return
     unicode_test(u'\u6700\u540e\u4e00\u4e2a\u95ee\u9898')

@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: CodeConvert
-Version: 1.0.0
+Version: 2.0.1
 Summary: Code Convert for Humans
 Home-page: https://github.com/Brightcells/CodeConvert
 Author: Hackathon
@@ -10,9 +10,6 @@ Description: CodeConvert is a simple code convert script(library) for Python, bu
 Keywords: CodeConvert unicode utf8 utf-8 gbk latin1 raw_unicode_escape
 Platform: UNKNOWN
 Classifier: Development Status :: 5 - Production/Stable
-Classifier: Environment :: Web Environment
-Classifier: Framework :: Django
 Classifier: Intended Audience :: Developers
 Classifier: Programming Language :: Python
 Classifier: Topic :: Software Development :: Libraries :: Python Modules
-Classifier: Topic :: Office/Business :: Financial :: Spreadsheet
