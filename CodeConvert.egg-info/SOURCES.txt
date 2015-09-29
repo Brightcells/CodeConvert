@@ -1,4 +1,5 @@
 CodeConvert.py
+README.rst
 setup.py
 CodeConvert.egg-info/PKG-INFO
 CodeConvert.egg-info/SOURCES.txt

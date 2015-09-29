@@ -12,7 +12,7 @@ setup(
     version=version,
     keywords='CodeConvert unicode utf8 utf-8 gbk latin1 raw_unicode_escape',
     description="Code Convert for Humans",
-    long_description='CodeConvert is a simple code convert script(library) for Python, built for human beings.',
+    long_description=open('README.rst').read(),
 
     url='https://github.com/Brightcells/CodeConvert',
 
