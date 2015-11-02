@@ -51,6 +51,7 @@ TIPS_UNICODE = {
 TIPS_ESCAPE = {
     'double_backslash_str': u">>> 双反斜杠字符: obj.decode('string_escape')",
     'double_backslash_unicode': u">>> 双反斜杠 Unicode 字符: obj.decode('raw_unicode_escape')",
+    'emoji': u">>> Emoji 字符: obj.decode('raw_unicode_escape')",
 }
 
 
@@ -171,11 +172,17 @@ def kw_escape(kw, debug=False):
         elif striped_kw.startswith('\\\\u'):
             ret = kw.decode('raw_unicode_escape')
             print_tip_escape('double_backslash_unicode', debug)
+        elif striped_kw.startswith('\\\\U'):
+            ret = kw.decode('raw_unicode_escape')
+            print_tip_escape('emoji', debug)
     else:
         striped_kw = exec_strip(repr_kw)
         if striped_kw.startswith('\\\\x'):
             ret = kw.decode('string_escape')
             print_tip_escape('double_backslash_str', debug)
+        elif striped_kw.startswith('\\\\U'):
+            ret = kw.decode('raw_unicode_escape')
+            print_tip_escape('emoji', debug)
     return ret
 
 
@@ -289,6 +296,10 @@ def _Convert2Utf8():
     utf8_test('¥半角¥')
     utf8_test(u'¥半角¥')
 
+    # emoji
+    utf8_test(u'🌴  新生°')
+    utf8_test('\\U0001f334  \\u65b0\\u751f\xb0')
+
 
 def _Convert2Unicode():
 
@@ -337,6 +348,10 @@ def _Convert2Unicode():
     # 半角
     unicode_test('¥半角¥')
     unicode_test(u'¥半角¥')
+
+    # emoji
+    unicode_test(u'🌴  新生°')
+    unicode_test('\\U0001f334  \\u65b0\\u751f\xb0')
 
 
 def main():
