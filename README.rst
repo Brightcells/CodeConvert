@@ -2,7 +2,7 @@
 CodeConvert
 ===========
 
-CodeConvert is a simple code convert script(library) for Python, built for human beings.
+CodeConvert is a simple code convert script(library) for Python 2.x, built for human beings.
 
 You can call function Convert2Utf8 or Convert2Unicode to exec code convert.
 Or just call function Convert2Utf8_test or Convert2Unicode_test to get code convert’s step.
