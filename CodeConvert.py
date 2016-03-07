@@ -189,7 +189,7 @@ def convert_2_utf8(kw):
     if isinstance(kw, basestring):
         return convert_2_utf8_basestring(kw_escape(kw))
     elif isinstance(kw, dict):
-        return dict((convert_2_utf8(k), convert_2_utf8(v)) for k, v in kw.items())
+        return dict((convert_2_utf8(k), convert_2_utf8(v)) for k, v in kw.iteritems())
     elif isinstance(kw, list):
         return [convert_2_utf8(k) for k in kw]
     elif isinstance(kw, tuple):
@@ -203,7 +203,7 @@ def convert_2_unicode(kw):
     if isinstance(kw, basestring):
         return convert_2_unicode_basestring(kw_escape(kw))
     elif isinstance(kw, dict):
-        return dict((convert_2_unicode(k), convert_2_unicode(v)) for k, v in kw.items())
+        return dict((convert_2_unicode(k), convert_2_unicode(v)) for k, v in kw.iteritems())
     elif isinstance(kw, list):
         return [convert_2_unicode(k) for k in kw]
     elif isinstance(kw, tuple):
@@ -230,5 +230,4 @@ class CodeConvert:
         return convert_2_unicode_basestring(kw_escape(kw, True), True)
 
 
-# For backwards compatibility
 CodeConvert = CodeConvert()
