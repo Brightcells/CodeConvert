@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 from CodeConvert import CodeConvert as cc
 
 
