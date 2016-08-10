@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import with_statement
+
 from setuptools import setup
 
 
@@ -11,7 +12,7 @@ setup(
     name='CodeConvert',
     version=version,
     keywords='CodeConvert unicode utf8 utf-8 gbk latin1 raw_unicode_escape',
-    description="Code Convert for Humans for Python 2.x",
+    description='Code Convert for Python 2.x for Humans™',
     long_description=open('README.rst').read(),
 
     url='https://github.com/Brightcells/CodeConvert',

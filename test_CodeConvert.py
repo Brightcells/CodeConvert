@@ -1,27 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-Copyright (c) 2015 HQM <qiminis0801@gmail.com>
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-"""
 
 from CodeConvert import CodeConvert as cc
 
@@ -39,6 +17,8 @@ def unicode_test(obj):
 
 
 def _Convert2Utf8():
+    # >>> For All
+    # >>> 双反斜杠字符: obj.decode('string_escape')
 
     # u 内含 gbk 编码字串, 先encode('latin1')为gbk编码，再decode('gbk')为unicode编码，再encode('utf8')为utf8编码
     utf8_test(u'\xd7\xee\xba\xf3\xd2\xbb\xb8\xf6\xce\xca\xcc\xe2')
@@ -54,7 +34,7 @@ def _Convert2Utf8():
     utf8_test(u'\u6700\u540e\u4e00\u4e2a\u95ee\u9898')
     utf8_test(u'\\u6700\\u540e\\u4e00\\u4e2a\\u95ee\\u9898')
 
-    # gbk 编码字串, 先encode('latin1')为gbk编码，再decode('gbk')为unicode编码，再encode('utf8')为utf8编码
+    # gbk 编码字串, 先decode('gbk')为unicode编码，再encode('utf8')为utf8编码
     utf8_test('\xd7\xee\xba\xf3\xd2\xbb\xb8\xf6\xce\xca\xcc\xe2')
     utf8_test('\\xd7\\xee\\xba\\xf3\\xd2\\xbb\\xb8\\xf6\\xce\\xca\\xcc\\xe2')
 
