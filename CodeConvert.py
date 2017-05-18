@@ -1,3 +1,4 @@
+import six
 # -*- coding: utf-8 -*-
 
 # Note:
@@ -32,15 +33,15 @@ TIPS_ESCAPE = {
 
 
 def print_tip_utf8(k, debug=False):
-    print TIPS_UTF8[k] if debug else ''
+    six.print_(TIPS_UTF8[k] if debug else '')
 
 
 def print_tip_unicode(k, debug=False):
-    print TIPS_UNICODE[k] if debug else ''
+    six.print_(TIPS_UNICODE[k] if debug else '')
 
 
 def print_tip_escape(k, debug=False):
-    print TIPS_ESCAPE[k] if debug else ''
+    six.print_(TIPS_ESCAPE[k] if debug else '')
 
 
 def exec_strip(repr_kw):
@@ -67,7 +68,7 @@ def convert_2_utf8_basestring(kw, debug=False):
                 except (UnicodeEncodeError, UnicodeDecodeError):  # 处理 unicode 编码
                     ret = kw.encode('utf8')
                     print_tip_utf8('unicode', debug)
-        elif isinstance(kw, unicode):  # 处理 unicode 编码
+        elif isinstance(kw, six.text_type):  # 处理 unicode 编码
             ret = kw.encode('utf8')
             print_tip_utf8('unicode', debug)
         else:
@@ -111,7 +112,7 @@ def convert_2_unicode_basestring(kw, debug=False):
                 except (UnicodeEncodeError, UnicodeDecodeError):  # 处理 unicode 编码
                     ret = kw
                     print_tip_unicode('unicode', debug)
-        elif isinstance(kw, unicode):  # 处理 unicode 编码
+        elif isinstance(kw, six.text_type):  # 处理 unicode 编码
             ret = kw
             print_tip_unicode('unicode', debug)
         else:
@@ -163,10 +164,10 @@ def kw_escape(kw, debug=False):
 
 
 def convert_2_utf8(kw):
-    if isinstance(kw, basestring):
+    if isinstance(kw, str):
         return convert_2_utf8_basestring(kw_escape(kw))
     elif isinstance(kw, dict):
-        return dict((convert_2_utf8(k), convert_2_utf8(v)) for k, v in kw.iteritems())
+        return dict((convert_2_utf8(k), convert_2_utf8(v)) for k, v in six.iteritems(kw))
     elif isinstance(kw, list):
         return [convert_2_utf8(k) for k in kw]
     elif isinstance(kw, tuple):
@@ -177,10 +178,10 @@ def convert_2_utf8(kw):
 
 
 def convert_2_unicode(kw):
-    if isinstance(kw, basestring):
+    if isinstance(kw, str):
         return convert_2_unicode_basestring(kw_escape(kw))
     elif isinstance(kw, dict):
-        return dict((convert_2_unicode(k), convert_2_unicode(v)) for k, v in kw.iteritems())
+        return dict((convert_2_unicode(k), convert_2_unicode(v)) for k, v in six.iteritems(kw))
     elif isinstance(kw, list):
         return [convert_2_unicode(k) for k in kw]
     elif isinstance(kw, tuple):

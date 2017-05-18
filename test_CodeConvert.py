@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from CodeConvert import CodeConvert as cc
+import six
 
 
 def utf8_test(obj):
-    print '>>> 转化为 utf8 编码'
+    six.print_('>>> 转化为 utf8 编码')
     utf = cc.Convert2Utf8_test(obj)
-    print '>>>', utf, '<==>', repr(obj), '\n'
+    six.print_('>>>', utf, '<==>', repr(obj), '\n')
 
 
 def unicode_test(obj):
-    print '>>> 转化为 unicode 编码'
+    six.print_('>>> 转化为 unicode 编码')
     uni = cc.Convert2Unicode_test(obj)
-    print '>>>', uni, '<==>', repr(obj), '\n'
+    six.print_('>>>', uni, '<==>', repr(obj), '\n')
 
 
 def _Convert2Utf8():
