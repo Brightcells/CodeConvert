@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
 from CodeConvert import CodeConvert as cc
 
 
 def utf8_test(obj):
-    print '>>> 转化为 utf8 编码'
+    print('>>> 转化为 utf8 编码')
     utf = cc.Convert2Utf8_test(obj)
-    print '>>>', utf, '<==>', repr(obj), '\n'
+    print('>>>', utf, '<==>', repr(obj), '\n')
 
 
 def unicode_test(obj):
-    print '>>> 转化为 unicode 编码'
+    print('>>> 转化为 unicode 编码')
     uni = cc.Convert2Unicode_test(obj)
-    print '>>>', uni, '<==>', repr(obj), '\n'
+    print('>>>', uni, '<==>', repr(obj), '\n')
 
 
 def _Convert2Utf8():
@@ -131,6 +133,7 @@ def _Convert2Unicode():
 def main():
     _Convert2Utf8()
     _Convert2Unicode()
+
 
 if __name__ == '__main__':
     main()

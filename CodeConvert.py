@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
+
 # Note:
 #   See http://docs.python.org/2/library/codecs.html#standard-encodings
 
@@ -32,15 +35,15 @@ TIPS_ESCAPE = {
 
 
 def print_tip_utf8(k, debug=False):
-    print TIPS_UTF8[k] if debug else ''
+    print(TIPS_UTF8[k] if debug else '')
 
 
 def print_tip_unicode(k, debug=False):
-    print TIPS_UNICODE[k] if debug else ''
+    print(TIPS_UNICODE[k] if debug else '')
 
 
 def print_tip_escape(k, debug=False):
-    print TIPS_ESCAPE[k] if debug else ''
+    print(TIPS_ESCAPE[k] if debug else '')
 
 
 def exec_strip(repr_kw):
