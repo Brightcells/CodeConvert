@@ -166,7 +166,7 @@ def kw_escape(kw, debug=False):
 
 
 def convert_2_utf8(kw):
-    if isinstance(kw, str):
+    if isinstance(kw, six.string_types):
         return convert_2_utf8_basestring(kw_escape(kw))
     elif isinstance(kw, dict):
         return dict((convert_2_utf8(k), convert_2_utf8(v)) for k, v in six.iteritems(kw))
@@ -180,7 +180,7 @@ def convert_2_utf8(kw):
 
 
 def convert_2_unicode(kw):
-    if isinstance(kw, str):
+    if isinstance(kw, six.string_types):
         return convert_2_unicode_basestring(kw_escape(kw))
     elif isinstance(kw, dict):
         return dict((convert_2_unicode(k), convert_2_unicode(v)) for k, v in six.iteritems(kw))
