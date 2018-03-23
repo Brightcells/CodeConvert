@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from CodeConvert import CodeConvert as cc
 import six
+from CodeConvert import CodeConvert as cc
 
 
 def utf8_test(obj):
