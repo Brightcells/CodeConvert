@@ -1,5 +1,7 @@
-import six
 # -*- coding: utf-8 -*-
+
+import six
+
 
 # Note:
 #   See http://docs.python.org/2/library/codecs.html#standard-encodings
