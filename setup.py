@@ -19,7 +19,7 @@ setup(
     author_email='kimi.huang@brightcells.com',
 
     py_modules=['CodeConvert'],
-    install_requires=[],
+    install_requires=['six'],
 
     classifiers=[
         "License :: OSI Approved :: BSD License",
