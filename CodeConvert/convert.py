@@ -136,8 +136,11 @@ def convert_2_unicode_basestring(kw, debug=False):
             ret = kw.decode('raw_unicode_escape')
             print_tip_unicode('unicode_without_u', debug)
         else:
-            ret = kw.decode('utf8')
-            print_tip_unicode('utf8', debug)
+            if six.PY2:
+                ret = kw.decode('utf8')
+                print_tip_unicode('utf8', debug)
+            else:
+                ret = kw
     return ret
 
 
