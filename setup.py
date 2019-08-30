@@ -18,7 +18,8 @@ setup(
     author='Hackathon',
     author_email='kimi.huang@brightcells.com',
 
-    py_modules=['CodeConvert'],
+    packages=['CodeConvert'],
+    py_modules=[],
     install_requires=['six'],
 
     classifiers=[
